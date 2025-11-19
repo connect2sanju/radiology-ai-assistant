@@ -1,0 +1,10 @@
+{
+  "Cardiomegaly": ["cardiomegaly", "enlarged heart", "increased cardiac silhouette", "cardiac enlargement"],
+  "Pleural Effusion": ["pleural effusion", "fluid in pleural space", "blunting of costophrenic angle", "pleural fluid"],
+  "Pulmonary Edema": ["pulmonary edema", "interstitial edema", "alveolar edema", "bat wing pattern", "fluid overload"],
+  "Consolidation": ["consolidation", "alveolar opacity", "lobar opacity", "airspace disease", "lobar pneumonia"],
+  "Atelectasis": ["atelectasis", "collapsed lung", "volume loss", "lung collapse"],
+  "Pneumothorax": ["pneumothorax", "air in pleural space", "collapsed lung due to air", "lung edge visible"],
+  "Support Devices": ["pacemaker", "ET tube", "central line", "NG tube", "medical device present"],
+  "No Finding": ["no abnormality detected", "normal chest x-ray", "unremarkable", "clear lung fields"]
+}
