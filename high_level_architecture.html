@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiology AI Assistant - Functional Architecture Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .diagram-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 15px;
+            border: 2px solid #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .functional-diagram {
+            position: relative;
+            width: 100%;
+            min-height: auto;
+        }
+
+        /* Functional Layer Containers */
+        .functional-layer {
+            margin: 8px 0;
+            padding: 8px;
+            border: 2px solid #666;
+            border-radius: 4px;
+            background: #fafafa;
+            position: relative;
+        }
+
+        .layer-title {
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            padding: 4px 8px;
+            background: #333;
+            color: white;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        /* Functional Components */
+        .function-box {
+            display: inline-block;
+            border: 1.5px solid #000;
+            border-radius: 4px;
+            padding: 6px 10px;
+            margin: 4px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9px;
+            min-width: 140px;
+            max-width: 150px;
+            position: relative;
+            vertical-align: top;
+        }
+
+        .function-name {
+            font-size: 10px;
+            margin-bottom: 3px;
+            color: #000;
+            line-height: 1.2;
+        }
+
+        .function-description {
+            font-size: 8px;
+            font-weight: normal;
+            color: #555;
+            margin-top: 2px;
+            font-style: italic;
+            line-height: 1.1;
+        }
+
+        /* Color Coding by Function Type */
+        .ui-function {
+            background: #61dafb;
+            border-color: #20232a;
+        }
+
+        .api-function {
+            background: #009688;
+            border-color: #004d40;
+            color: white;
+        }
+
+        .api-function .function-description {
+            color: #e0f2f1;
+        }
+
+        .processing-function {
+            background: #ff9800;
+            border-color: #e65100;
+        }
+
+        .ai-function {
+            background: #412991;
+            border-color: #1a0033;
+            color: white;
+        }
+
+        .ai-function .function-description {
+            color: #e1bee7;
+        }
+
+        .data-function {
+            background: #4caf50;
+            border-color: #1b5e20;
+        }
+
+        .learning-function {
+            background: #9c27b0;
+            border-color: #6a1b9a;
+            color: white;
+        }
+
+        .learning-function .function-description {
+            color: #e1bee7;
+        }
+
+        /* Function Grid Layout */
+        .function-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        /* Connection Lines */
+        .connection-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connection-line {
+            stroke: #333;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .connection-label {
+            fill: #333;
+            font-size: 10px;
+            background: white;
+        }
+
+        /* SVG for Connections */
+        .connections-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Functional Flow Sections */
+        .flow-section {
+            margin: 10px 0;
+            padding: 8px;
+            background: white;
+            border-left: 3px solid #009688;
+        }
+
+        .flow-title {
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #009688;
+        }
+
+        /* Legend */
+        .legend {
+            margin-top: 12px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: #f9f9f9;
+        }
+
+        .legend-title {
+            font-size: 9px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 12px;
+            border: 1px solid #000;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagram-container">
+        <h1>Radiology AI Assistant - Functional Architecture Diagram</h1>
+        
+        <div class="functional-diagram">
+            <!-- SVG for Connection Lines -->
+            <svg class="connections-svg" viewBox="0 0 1600 800" preserveAspectRatio="none">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#333" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <!-- Presentation Layer -->
+            <div class="functional-layer" style="background: #e3f2fd;">
+                <div class="layer-title">Presentation Layer</div>
+                <div class="function-grid">
+                    <div class="function-box ui-function">
+                        <div class="function-name">Image Upload Function</div>
+                        <div class="function-description">Handles file upload & validation</div>
+                    </div>
+                    <div class="function-box ui-function">
+                        <div class="function-name">Report Display Function</div>
+                        <div class="function-description">Renders report with editable fields</div>
+                    </div>
+                    <div class="function-box ui-function">
+                        <div class="function-name">Explanation View Function</div>
+                        <div class="function-description">Shows evidence & confidence scores</div>
+                    </div>
+                    <div class="function-box ui-function">
+                        <div class="function-name">Analytics Dashboard Function</div>
+                        <div class="function-description">Displays system metrics & stats</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Layer -->
+            <div class="functional-layer" style="background: #e0f2f1;">
+                <div class="layer-title">API Layer</div>
+                <div class="function-grid">
+                    <div class="function-box api-function">
+                        <div class="function-name">Report Generation API</div>
+                        <div class="function-description">/api/generate-report endpoint</div>
+                    </div>
+                    <div class="function-box api-function">
+                        <div class="function-name">Feedback Collection API</div>
+                        <div class="function-description">/api/save-feedback endpoint</div>
+                    </div>
+                    <div class="function-box api-function">
+                        <div class="function-name">Analytics API</div>
+                        <div class="function-description">/api/analytics endpoint</div>
+                    </div>
+                    <div class="function-box api-function">
+                        <div class="function-name">Learning Rules API</div>
+                        <div class="function-description">/api/rules endpoint</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Processing Layer -->
+            <div class="functional-layer" style="background: #fff3e0;">
+                <div class="layer-title">Core Processing Layer</div>
+                <div class="function-grid">
+                    <div class="function-box processing-function">
+                        <div class="function-name">Image Processing Function</div>
+                        <div class="function-description">Image validation & preprocessing</div>
+                    </div>
+                    <div class="function-box processing-function">
+                        <div class="function-name">Report Generation Function</div>
+                        <div class="function-description">Structured JSON report creation</div>
+                    </div>
+                    <div class="function-box processing-function">
+                        <div class="function-name">Ontology Mapping Function</div>
+                        <div class="function-description">RadLex & CheXpert term mapping</div>
+                    </div>
+                    <div class="function-box processing-function">
+                        <div class="function-name">Report Validation Function</div>
+                        <div class="function-description">Validates findings against ontology</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI & Intelligence Layer -->
+            <div class="functional-layer" style="background: #f3e5f5;">
+                <div class="layer-title">AI & Intelligence Layer</div>
+                <div class="function-grid">
+                    <div class="function-box ai-function">
+                        <div class="function-name">Vision Analysis Function</div>
+                        <div class="function-description">GPT-4o Vision API integration</div>
+                    </div>
+                    <div class="function-box ai-function">
+                        <div class="function-name">Explainability Function</div>
+                        <div class="function-description">Generates evidence chains & reasoning</div>
+                    </div>
+                    <div class="function-box ai-function">
+                        <div class="function-name">Confidence Scoring Function</div>
+                        <div class="function-description">Calculates confidence levels</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management Layer -->
+            <div class="functional-layer" style="background: #e8f5e9;">
+                <div class="layer-title">Data Management Layer</div>
+                <div class="function-grid">
+                    <div class="function-box data-function">
+                        <div class="function-name">Feedback Storage Function</div>
+                        <div class="function-description">Stores original & edited reports</div>
+                    </div>
+                    <div class="function-box data-function">
+                        <div class="function-name">Analytics Data Function</div>
+                        <div class="function-description">Manages performance metrics</div>
+                    </div>
+                    <div class="function-box data-function">
+                        <div class="function-name">Ontology Data Function</div>
+                        <div class="function-description">RadLex terms & CheXpert labels</div>
+                    </div>
+                    <div class="function-box data-function">
+                        <div class="function-name">Logging Function</div>
+                        <div class="function-description">System logs & audit trail</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning & Improvement Layer -->
+            <div class="functional-layer" style="background: #fce4ec;">
+                <div class="layer-title">Learning & Improvement Layer</div>
+                <div class="function-grid">
+                    <div class="function-box learning-function">
+                        <div class="function-name">Rule Mining Function</div>
+                        <div class="function-description">Extracts patterns from feedback</div>
+                    </div>
+                    <div class="function-box learning-function">
+                        <div class="function-name">Model Update Function</div>
+                        <div class="function-description">Applies learned rules to reports</div>
+                    </div>
+                    <div class="function-box learning-function">
+                        <div class="function-name">Weak Classifier Function</div>
+                        <div class="function-description">Trains on feedback patterns</div>
+                    </div>
+                    <div class="function-box learning-function">
+                        <div class="function-name">Performance Evaluation Function</div>
+                        <div class="function-description">Measures accuracy improvements</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functional Flow Description -->
+            <div class="flow-section">
+                <div class="flow-title">Functional Flow:</div>
+                <div style="font-size: 8px; line-height: 1.4;">
+                    <strong>1. Image Upload</strong> → <strong>Image Processing</strong> → <strong>Vision Analysis</strong> | 
+                    <strong>2. Vision Analysis</strong> → <strong>Report Generation</strong> → <strong>Ontology Mapping</strong> | 
+                    <strong>3. Ontology Mapping</strong> → <strong>Explainability</strong> → <strong>Confidence Scoring</strong><br>
+                    <strong>4. Report Display</strong> → <strong>Feedback Collection API</strong> → <strong>Feedback Storage</strong> | 
+                    <strong>5. Feedback Storage</strong> → <strong>Rule Mining</strong> → <strong>Model Update</strong> | 
+                    <strong>6. Model Update</strong> → <strong>Performance Evaluation</strong> → <strong>Analytics Data</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-title">Function Type Legend:</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #61dafb; border-color: #20232a;"></div>
+                    <span>UI/Presentation Functions</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #009688; border-color: #004d40;"></div>
+                    <span>API Functions</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff9800; border-color: #e65100;"></div>
+                    <span>Core Processing Functions</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #412991; border-color: #1a0033;"></div>
+                    <span>AI/Intelligence Functions</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4caf50; border-color: #1b5e20;"></div>
+                    <span>Data Management Functions</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #9c27b0; border-color: #6a1b9a;"></div>
+                    <span>Learning & Improvement Functions</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
